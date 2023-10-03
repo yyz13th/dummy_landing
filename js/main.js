@@ -1,3 +1,5 @@
+
+//active header
 (function () {
     const header = document.querySelector('.header');
     window.onscroll = () => {
@@ -9,11 +11,34 @@
     };
 }());
 
+//close annoying top bar
 (function () {
   const container = document.querySelector('.header__intro');
   const headIntroClose = document.querySelector('.header__intro-close');
   headIntroClose.addEventListener('click', () => {
     container.style.display = 'none';
+  });
+}());
+
+//scroll to top
+(function () {
+  const scrollToTopButton = document.getElementById('scrollToTopButton');
+
+  // Show the scroll-to-top button when scrolling down
+  window.addEventListener('scroll', () => {
+    if (window.pageYOffset > 100) {
+      scrollToTopButton.classList.add('show', 'animate__animated', 'animate__fadeIn');
+    } else {
+      scrollToTopButton.classList.remove('show', 'animate__animated', 'animate__fadeIn');
+    }
+  });
+
+  // Scroll to the top when the button is clicked
+  scrollToTopButton.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   });
 }());
 
@@ -82,6 +107,85 @@ const slider = (selector, prev, next) => {
     showSlide(currentIndex);
 }
 
+const showHideToogle = (slideMax, slideMin) => {
+    const showBtns = document.querySelectorAll('.slide__show');
+    const hideBtns = document.querySelectorAll('.slide__hide');
+    const slides = document.querySelectorAll(slideMax);
+    const slidesMin = document.querySelectorAll(slideMin);
+
+    showBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            slides.forEach((slide) => {
+                slide.style.display = 'block';
+            });
+            slidesMin.forEach((slide) => {
+                slide.style.display = 'none';
+                slide.classList.remove('animate__animated', 'animate__fadeIn');
+            });
+        });
+    })
+
+    hideBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            slides.forEach((slide) => {
+                slide.style.display = 'none';
+            });
+            slidesMin.forEach((slide) => {
+              slide.style.display = 'block';
+              slide.classList.add('animate__animated', 'animate__fadeIn');
+            });
+        });
+    })
+}
+// const createMinDiv = (hidebtn) => {
+//   const parentElement = hidebtn.parentElement.parentElement.parentElement.parentElement;
+//     const newDiv = document.createElement('div');
+//     newDiv.className = 'news__slide-min';
+//     newDiv.innerHTML = `
+//       <a href="#!" class="slide__show">Show</a>
+//       <div class="slide__name-min">News</div>
+//       <div class="side__title-min">Slider Title test</div>
+//     `;
+//   parentElement.parentNode.insertBefore(newDiv, parentElement);
+//   newDiv.style.display = 'block';
+// }
+
+// const showHideToogle = (slideMax, slideMin) => {
+//   const showBtns = document.querySelectorAll('.slide__show');
+//   const hideBtns = document.querySelectorAll('.slide__hide');
+//   const slides = document.querySelectorAll(slideMax);
+//   const slidesMin = document.querySelectorAll(slideMin);
+
+
+//   showBtns.forEach((btn) => {
+//       btn.addEventListener('click', () => {
+//           slides.forEach((slide) => {
+//               slide.style.display = 'block';
+//           });
+//           slidesMin.forEach((slide) => {
+//               slide.style.display = 'none';
+//               slide.classList.remove('animate__animated', 'animate__fadeIn');
+//           });
+//       });
+//   })
+
+//   hideBtns.forEach((btn) => {
+//       btn.addEventListener('click', () => {
+
+//           slides.forEach((slide) => {
+//               slide.style.display = 'none';
+//           });
+//           slidesMin.forEach((slide) => {
+            
+//             slide.style.display = 'block';
+//             slide.classList.add('animate__animated', 'animate__fadeIn');
+//           });
+//       });
+//   })
+// }
+
+
+
 const reduceText = (container, limit) => {
     const textElement = document.querySelectorAll(container);
     textElement.forEach((element) => {
@@ -100,18 +204,6 @@ const reduceText = (container, limit) => {
     })
 }
 
-function openModal (modalSelector){
-  const modal = document.querySelector(modalSelector);
-    modal.style.display = 'block';
-  //  document.body.style.overflow = 'hidden';
-}
-
-function closeModal (modalSelector){
-   const modal = document.querySelector(modalSelector);
-    modal.style.display = 'none';
-  //  document.body.style.overflow='';
-}
-
 function readMoreText() {
   const headModal = document.querySelector('.modal__title');
   const descModal = document.querySelector('.modal__desc');
@@ -127,6 +219,18 @@ function readMoreText() {
       descModal.textContent = fullText; //use buffer
     });
   });
+}
+
+function openModal (modalSelector){
+  const modal = document.querySelector(modalSelector);
+    modal.style.display = 'block';
+   document.body.style.overflow = 'hidden';
+}
+
+function closeModal (modalSelector){
+   const modal = document.querySelector(modalSelector);
+    modal.style.display = 'none';
+   document.body.style.overflow='';
 }
 
 function modal (triggerSelector, modalSelector) {
@@ -151,6 +255,7 @@ function modal (triggerSelector, modalSelector) {
    });
 
 }
+
 document.addEventListener('DOMContentLoaded', () => {
 reduceText('.slide__desc', 446);
 slider('.news__slide','.slide__prev', '.slide__next');
@@ -159,5 +264,6 @@ slider('.footer-news__slide', '.footer-slide__prev', '.footer-slide__next');
 toogleDetails();
 modal('.read-more', '.modal');
 readMoreText();
+showHideToogle('.news__slides', '.news__slides-min');
 })
 
