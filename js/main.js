@@ -25,7 +25,6 @@
         btn.addEventListener('click', (event) => {
           event.preventDefault();
           console.log('click'); // Prevent default behavior of <a> element
-          // Toggle the display property of the corresponding tariff__details element
           // tariffDetails[index].style.display = tariffDetails[index].style.display === 'none' ? 'block' : 'none';
 
           if (tariffDetails[index].style.display = tariffDetails[index].style.display === 'none') {
@@ -83,9 +82,82 @@ const slider = (selector, prev, next) => {
     showSlide(currentIndex);
 }
 
+const reduceText = (container, limit) => {
+    const textElement = document.querySelectorAll(container);
+    textElement.forEach((element) => {
+        const text = element.textContent;
+        if (text.length <= limit) {
+            return;
+        } else { 
+          element.dataset.fullText = text; //save the full text
+          element.textContent =  text.slice(0, 440) + '...';
+          const readMore = document.createElement('a');
+          readMore.classList.add('read-more');
+          readMore.href = '#';
+          readMore.textContent = 'Read more';
+          element.appendChild(readMore);
+        }
+    })
+}
+
+function openModal (modalSelector){
+  const modal = document.querySelector(modalSelector);
+    modal.style.display = 'block';
+  //  document.body.style.overflow = 'hidden';
+}
+
+function closeModal (modalSelector){
+   const modal = document.querySelector(modalSelector);
+    modal.style.display = 'none';
+  //  document.body.style.overflow='';
+}
+
+function readMoreText() {
+  const headModal = document.querySelector('.modal__title');
+  const descModal = document.querySelector('.modal__desc');
+  const slideButtons = document.querySelectorAll('.slide__info .read-more');
+
+  slideButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const slideTitle = button.closest('.slide__info').querySelector('.slide__title');
+      const slideDesc = button.closest('.slide__info').querySelector('.slide__desc');
+      const fullText = slideDesc.dataset.fullText; //assign uncut text to the buffer
+
+      headModal.textContent = slideTitle.textContent;
+      descModal.textContent = fullText; //use buffer
+    });
+  });
+}
+
+function modal (triggerSelector, modalSelector) {
+   const modalTrigger = document.querySelectorAll(triggerSelector), 
+   modal = document.querySelector(modalSelector);
+   modalTrigger.forEach(btn => {
+       btn.addEventListener('click', () => {
+           openModal(modalSelector);
+       });
+   }) 
+
+   modal.addEventListener('click', (e) => {
+    if (e.target === modal || e.target.getAttribute('data-close') == '') {
+        closeModal(modalSelector);
+    }
+});
+            
+   document.addEventListener('keydown', (e) => {
+       if (e.key === 'Escape') {
+           closeModal(modalSelector);
+       }
+   });
+
+}
+document.addEventListener('DOMContentLoaded', () => {
+reduceText('.slide__desc', 446);
 slider('.news__slide','.slide__prev', '.slide__next');
 slider('.second-news__slide', '.second-slide__prev', '.second-slide__next');
 slider('.footer-news__slide', '.footer-slide__prev', '.footer-slide__next');
 toogleDetails();
-
+modal('.read-more', '.modal');
+readMoreText();
+})
 
