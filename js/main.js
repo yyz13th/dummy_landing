@@ -107,9 +107,9 @@ const slider = (selector, prev, next) => {
     showSlide(currentIndex);
 }
 
-const showHideToogle = (slideMax, slideMin) => {
-    const showBtns = document.querySelectorAll('.slide__show');
-    const hideBtns = document.querySelectorAll('.slide__hide');
+const showHideToogle = (showBtn, hideBtn, slideMax, slideMin) => {
+    const showBtns = document.querySelectorAll(showBtn);
+    const hideBtns = document.querySelectorAll(hideBtn);
     const slides = document.querySelectorAll(slideMax);
     const slidesMin = document.querySelectorAll(slideMin);
 
@@ -127,64 +127,19 @@ const showHideToogle = (slideMax, slideMin) => {
 
     hideBtns.forEach((btn) => {
         btn.addEventListener('click', () => {
+          const slideMaxTitle = btn.closest('.slide__info').querySelector('.slide__title');
+          const slideMinTitle = document.querySelector('.side__title-min');
             slides.forEach((slide) => {
                 slide.style.display = 'none';
             });
             slidesMin.forEach((slide) => {
+              slideMinTitle.textContent = slideMaxTitle.textContent;
               slide.style.display = 'block';
               slide.classList.add('animate__animated', 'animate__fadeIn');
             });
         });
     })
 }
-// const createMinDiv = (hidebtn) => {
-//   const parentElement = hidebtn.parentElement.parentElement.parentElement.parentElement;
-//     const newDiv = document.createElement('div');
-//     newDiv.className = 'news__slide-min';
-//     newDiv.innerHTML = `
-//       <a href="#!" class="slide__show">Show</a>
-//       <div class="slide__name-min">News</div>
-//       <div class="side__title-min">Slider Title test</div>
-//     `;
-//   parentElement.parentNode.insertBefore(newDiv, parentElement);
-//   newDiv.style.display = 'block';
-// }
-
-// const showHideToogle = (slideMax, slideMin) => {
-//   const showBtns = document.querySelectorAll('.slide__show');
-//   const hideBtns = document.querySelectorAll('.slide__hide');
-//   const slides = document.querySelectorAll(slideMax);
-//   const slidesMin = document.querySelectorAll(slideMin);
-
-
-//   showBtns.forEach((btn) => {
-//       btn.addEventListener('click', () => {
-//           slides.forEach((slide) => {
-//               slide.style.display = 'block';
-//           });
-//           slidesMin.forEach((slide) => {
-//               slide.style.display = 'none';
-//               slide.classList.remove('animate__animated', 'animate__fadeIn');
-//           });
-//       });
-//   })
-
-//   hideBtns.forEach((btn) => {
-//       btn.addEventListener('click', () => {
-
-//           slides.forEach((slide) => {
-//               slide.style.display = 'none';
-//           });
-//           slidesMin.forEach((slide) => {
-            
-//             slide.style.display = 'block';
-//             slide.classList.add('animate__animated', 'animate__fadeIn');
-//           });
-//       });
-//   })
-// }
-
-
 
 const reduceText = (container, limit) => {
     const textElement = document.querySelectorAll(container);
@@ -264,6 +219,8 @@ slider('.footer-news__slide', '.footer-slide__prev', '.footer-slide__next');
 toogleDetails();
 modal('.read-more', '.modal');
 readMoreText();
-showHideToogle('.news__slides', '.news__slides-min');
+showHideToogle('.slide__show', '.slide__hide', '.news__slides', '.news__slides-min');
+showHideToogle('.second-slide__show', '.second-slide__hide', '.second-news__slides', '.second-news__slides-min');
+showHideToogle('.footer-slide__show', '.footer-slide__hide', '.footer-news__slides', '.footer-news__slides-min');
 })
 
