@@ -311,6 +311,61 @@ img {
 }
 /* news end */
 
+/* suggestion start */
+.suggestion__slider {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+    gap: 10px;
+    /* column-gap: 0 108px; */
+    align-items: center;
+    justify-items: center;
+    margin-bottom: 20px;
+    background-color: #FFF;
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0px 10px 30px 0px rgba(69, 88, 190, 0.10);
+    padding-left: 60px;
+    padding-right: 60px;
+}
+
+.suggestion__ico {
+    border: 0;
+    background-size: contain;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.suggestion__ico.active,
+.suggestion__ico:hover {
+    padding: 5px 5px;
+    background-color: #3e4676;
+    border-radius: 10px;
+
+}
+
+.sugg-slide__next {
+    border: 0;
+    background: url('../img/svg/next_button.svg') no-repeat 50% bottom;
+    background-size: contain;
+    padding-right: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.sugg-slide__prev {
+    border: 0;
+    background: url('../img/svg/prev_button.svg') no-repeat 50% bottom;
+    background-size: contain;
+    padding-right: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+/*suggestion end */
+
 /*tariffs start */
 .tariff__cards {
     display: grid;
@@ -319,6 +374,8 @@ img {
     align-items: start;
     margin-bottom: 20px;
 }
+
+
 
 @media screen and (max-width: 960px) {
     .tariff__cards {
